@@ -1232,9 +1232,9 @@ t.only('update a node while ignoring versions if its bundled by the root project
       },
     }),
   })
-  const arb = new Arborist({ ...OPT, path, update: ['abbrev'], ignoreVersions: [">1.1.0"] })
-  await arb.buildIdealTree({ update: ['abbrev'], ignoreVersions: ">1.1.0" })
-  t.equal(arb.idealTree.children.get('abbrev').version, '1.1.0')
+  const arb = new Arborist({ ...OPT, path, fix: true, force: true, update: ['abbrev'], ignoreVersions: ">1.0.9" })
+  await arb.buildIdealTree({ fix: true, force: true, update: ['abbrev'], ignoreVersions: ">1.0.9" })
+  t.equal(arb.idealTree.children.get('abbrev').version, '1.0.9')
 })
 
 t.test('more peer dep conflicts', t => {
