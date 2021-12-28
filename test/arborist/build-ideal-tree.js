@@ -1215,6 +1215,28 @@ t.test('update a node if its bundled by the root project', async t => {
   t.equal(arb.idealTree.children.get('abbrev').version, '1.1.1')
 })
 
+t.only('update a node while ignoring versions if its bundled by the root project', async t => {
+  const path = t.testdir({
+    node_modules: {
+      abbrev: {
+        'package.json': JSON.stringify({
+          name: 'abbrev',
+          version: '1.0.0',
+        }),
+      },
+    },
+    'package.json': JSON.stringify({
+      bundleDependencies: ['abbrev'],
+      dependencies: {
+        abbrev: '1',
+      },
+    }),
+  })
+  const arb = new Arborist({ ...OPT, path, update: ['abbrev'], ignoreVersions: [">1.1.0"] })
+  await arb.buildIdealTree({ update: ['abbrev'], ignoreVersions: ">1.1.0" })
+  t.equal(arb.idealTree.children.get('abbrev').version, '1.1.0')
+})
+
 t.test('more peer dep conflicts', t => {
   // each of these is installed and should pass in force mode,
   // fail in strictPeerDeps mode, and pass/fail based on the
