@@ -28,6 +28,9 @@ for (const arg of process.argv.slice(2)) {
     options.update = options.update || {}
     options.update.names = options.update.names || []
     options.update.names.push(arg.substr('--update='.length))
+  } else if (/^--ignore-versions=/.test(arg)) {
+    options.ignoreVersions = options.ignoreVersions || []
+    options.ignoreVersions.push(arg.substr('--ignoreVersions='.length))
   } else if (/^--omit=/.test(arg)) {
     options.omit = options.omit || []
     options.omit.push(arg.substr('--omit='.length))
